@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Book extends Document {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true})
   name: string;
 
   @Prop()
@@ -18,6 +18,8 @@ export class Book extends Document {
   @Prop()
   publisher: string;
   
+  @Prop({ require: true })
+  authorId: string;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);
