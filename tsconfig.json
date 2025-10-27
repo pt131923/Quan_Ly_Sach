@@ -5,19 +5,14 @@
     // THAY ĐỔI 1: Chuyển về CommonJS để đảm bảo module.exports hoạt động
     "module": "commonjs", 
     
-    // THAY ĐỔI 2: Dùng moduleResolution cũ hơn, tương thích hơn
-    "moduleResolution": "node", 
-    
-    // CÁC TÙY CHỌN KHÁC GIỮ NGUYÊN HOẶC TÙY CHỈNH
-    "resolvePackageJsonExports": true, // Giữ nguyên
-    "esModuleInterop": true,           // Giữ nguyên
+    "moduleResolution": "node",
     "isolatedModules": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021", // Nên dùng ES2021/ES2020 thay vì ES2023 cho tương thích
+    "target": "es2023",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
