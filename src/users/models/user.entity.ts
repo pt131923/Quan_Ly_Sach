@@ -21,8 +21,10 @@ export class User {
 
     @Prop({ default: null })
     refreshToken?: string;
+
+    @Prop({ default: 'user', enum: ['admin', 'user'] })
+      role: 'admin' | 'user';
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
 

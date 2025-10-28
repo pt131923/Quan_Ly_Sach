@@ -16,9 +16,9 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  async register(username: string, password: string) {
+  async register(username: string, password: string, role: string) {
     const hashedPassword = await bcrypt.hash(password, 10);
-    return this.usersService.create({ username, password: hashedPassword });
+    return this.usersService.create({ username, password: hashedPassword, role});
   }
 
   async login(username: string, password: string) {

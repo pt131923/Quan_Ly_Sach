@@ -5,4 +5,5 @@ export class CreateUserDto {
     username: string;
     password: string;
     isFlag?: boolean;
+    role : string;
 }

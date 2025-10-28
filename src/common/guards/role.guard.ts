@@ -1,20 +1,34 @@
+// src/common/guards/role-guard.ts
+
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+
+// Định nghĩa kiểu Vai trò (có thể đặt trong file riêng, nhưng để đơn giản ta dùng string)
+type Role = 'admin' | 'user';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
-  canActivate(ctx: ExecutionContext): boolean {
+  canActivate(context: ExecutionContext): boolean {
     const ROLES_KEY = 'roles'; 
-    const requiredRoles = this.reflector.getAllAndOverride<string[]>(
+    
+    // 1. Lấy ra các vai trò được yêu cầu từ Decorator (@Roles)
+    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(
       ROLES_KEY,
-      [ctx.getHandler(), ctx.getClass()],
+      [context.getHandler(), context.getClass()],
     );
 
-    if (!requiredRoles) return true;
+    if (!requiredRoles) {
+      return true; 
+    }
 
-    const { user } = ctx.switchToHttp().getRequest();
-    return requiredRoles.includes(user.role);
+    const { user } = context.switchToHttp().getRequest();
+
+    if (!user || !user.role) {
+        return false; 
+    }
+
+    return requiredRoles.includes(user.role as Role);
   }
 }

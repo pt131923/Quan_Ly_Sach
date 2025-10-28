@@ -1,45 +1,65 @@
 // src/main.ts
 
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import express from 'express';
+import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-let cachedServer;
+let cachedServer: any;
 
-// HÀM KHỞI TẠO VÀ TRẢ VỀ EXPRESS APP
-async function bootstrap() {
+async function bootstrapServerless() {
   if (!cachedServer) {
     const expressApp = express();
     const app = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
-    
-    // Cấu hình Swagger
+
+    // Swagger (disable in production)
     if (process.env.NODE_ENV !== 'production') {
-        const config = new DocumentBuilder()
-            .setTitle('Quản Lý Sách API')
-            .setDescription('Tài liệu API cho ứng dụng Quản Lý Sách')
-            .setVersion('1.0')
-            .addBearerAuth()
-            .build();
-        const document = SwaggerModule.createDocument(app, config);
-        SwaggerModule.setup('api/docs', app, document); 
+      const config = new DocumentBuilder()
+        .setTitle('Quản Lý Sách API')
+        .setDescription('Tài liệu API cho ứng dụng Quản Lý Sách')
+        .setVersion('1.0')
+        .addBearerAuth()
+        .build();
+
+      const document = SwaggerModule.createDocument(app, config);
+      SwaggerModule.setup('api/docs', app, document);
     }
 
-    // Quan trọng: Phải gọi app.init() để module được load
     await app.init();
-    cachedServer = expressApp; 
+    cachedServer = expressApp;
   }
+
   return cachedServer;
 }
 
-// XUẤT MODULE DƯỚI DẠNG HÀM HANDLER CHÍNH
-module.exports = async (req, res) => {
-  const server = await bootstrap();
-  server(req, res);
+// ✅ Export handler cho Vercel / AWS Lambda
+export default async (req: any, res: any) => {
+  const server = await bootstrapServerless();
+  return server(req, res);
 };
 
-// **********************************************
-// * Bỏ tất cả logic if (!process.env.AWS_LAMBDA_FUNCTION_NAME) ở dưới *
-// * để tránh xung đột với module.exports bên trên. *
-// **********************************************
+// ✅ Khi chạy local, sẽ listen port
+if (!process.env.VERCEL && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
+  async function bootstrapLocal() {
+    const app = await NestFactory.create(AppModule);
+
+    if (process.env.NODE_ENV !== 'production') {
+      const config = new DocumentBuilder()
+        .setTitle('Quản Lý Sách API')
+        .setDescription('Tài liệu API cho ứng dụng Quản Lý Sách')
+        .setVersion('1.0')
+        .addBearerAuth()
+        .build();
+
+      const document = SwaggerModule.createDocument(app, config);
+      SwaggerModule.setup('api/docs', app, document);
+    }
+
+    const port = process.env.PORT || 8080;
+    await app.listen(port);
+    console.log(`🚀 Server listening on http://localhost:${port}`);
+  }
+
+  bootstrapLocal();
+}
