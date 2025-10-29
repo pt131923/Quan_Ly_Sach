@@ -9,7 +9,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<User & Document>) {}
 
-  async findAll(page: number = 1, limit: number = 5): Promise<{ data: (User & Document)[]; total: number; page: number; limit: number; }> {
+  async findAll(page: number = 1, limit: number = 10): Promise<{ data: (User & Document)[]; total: number; page: number; limit: number; }> {
     const skip = (page - 1) * limit;
     const [data, total] = await Promise.all([
       this.userModel.find().skip(skip).limit(limit).exec(),

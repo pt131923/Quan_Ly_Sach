@@ -1,4 +1,4 @@
-import { Injectable, Module, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
@@ -12,7 +12,7 @@ export class AuthService {
 
   private generateTokens(payload: any) {
     const accessToken = this.jwtService.sign(payload, { expiresIn: '30m' });
-    const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
+    const refreshToken = this.jwtService.sign(payload, { expiresIn: '30m' });
     return { accessToken, refreshToken };
   }
 
@@ -49,7 +49,7 @@ export class AuthService {
     const isMatch = await bcrypt.compare(refreshToken, user.refreshToken);
     if (!isMatch) throw new UnauthorizedException('Invalid refresh token');
 
-    const payload = { sub: user._id, username: user.username };
+    const payload = { sub: user._id, username: user.username, role: user.role };
     return this.generateTokens(payload);
   }
 }

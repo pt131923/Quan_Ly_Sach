@@ -33,11 +33,6 @@ async function bootstrapServerless() {
   return cachedServer;
 }
 
-// ✅ Export handler cho Vercel / AWS Lambda
-export default async (req: any, res: any) => {
-  const server = await bootstrapServerless();
-  return server(req, res);
-};
 
 // ✅ Khi chạy local, sẽ listen port
 if (!process.env.VERCEL && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
