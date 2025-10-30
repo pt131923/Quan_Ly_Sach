@@ -1,7 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
-// Định nghĩa kiểu Vai trò (có thể đặt trong file riêng, nhưng để đơn giản ta dùng string)
 type Role = 'admin' | 'user';
 
 @Injectable()

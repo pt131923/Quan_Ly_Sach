@@ -1,5 +1,3 @@
-// src/main.ts
-
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import express from 'express';
@@ -16,7 +14,7 @@ async function bootstrapServerless() {
     // Swagger (disable in production)
     if (process.env.NODE_ENV !== 'production') {
       const config = new DocumentBuilder()
-        .setTitle('Quản Lý Sách API')
+        .setTitle('Quản Lý Sách')
         .setDescription('Tài liệu API cho ứng dụng Quản Lý Sách')
         .setVersion('1.0')
         .addBearerAuth()
@@ -41,7 +39,7 @@ if (!process.env.VERCEL && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
 
     if (process.env.NODE_ENV !== 'production') {
       const config = new DocumentBuilder()
-        .setTitle('Quản Lý Sách API')
+        .setTitle('Quản Lý Sách')
         .setDescription('Tài liệu API cho ứng dụng Quản Lý Sách')
         .setVersion('1.0')
         .addBearerAuth()

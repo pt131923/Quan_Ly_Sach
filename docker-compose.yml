@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # ------------------------
+  # MongoDB Service
+  # ------------------------
+  mongo:
+    container_name: mongodb-container
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+      - MONGO_INITDB_DATABASE=userdb
+    volumes:
+      - mongodb_data:/data/db
+    restart: always
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ------------------------
+  # NestJS API Service
+  # ------------------------
+  api:
+    container_name: nest-api
+    build: .
+    command: npm run start:dev
+    ports:
+      - "8080:8080"          # ⚠️ đổi 80 -> 8080 để tránh lỗi permission
+    environment:
+      - PORT=8080
+      - MONGO_URI=mongodb://admin:123456@mongo:27017/userdb?authSource=admin
+      - NODE_ENV=development
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: always
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+
+volumes:
+  mongodb_data:

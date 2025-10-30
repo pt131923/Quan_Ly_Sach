@@ -11,7 +11,7 @@ export class AuthorsController {
   create(@Body() createAuthorDto: CreateAuthorDto) {
     return this.authorsService.create(createAuthorDto);
   }
-
+  
   @Get()
   findAll() {
     return this.authorsService.findAll();

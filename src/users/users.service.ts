@@ -30,7 +30,7 @@ export class UsersService {
   async update(id: string, updateData: UpdateUserDto): Promise<(User & Document) | null> {
     return this.userModel.findByIdAndUpdate(id, updateData, { new: true }).exec();
   }
-
+ 
   async delete(id: string): Promise<(User & Document) | null> {
     return this.userModel.findByIdAndDelete(id).exec();
   }

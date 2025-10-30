@@ -24,7 +24,7 @@ import {
   export class BooksController {
     constructor(private readonly bookService: BooksService) {}
   
-    // 1️⃣ GET - Lấy danh sách tất cả sách (ai cũng có thể xem)
+     // 1️⃣ GET - Lấy danh sách tất cả sách (ai cũng có thể xem)
     @Get()
     findAll(@Query('page') page: number, @Query('limit') limit: number) {
       return this.bookService.findAll(Number(page) || 1, Number(limit) || 5);
