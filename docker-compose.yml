@@ -5,8 +5,8 @@ services:
   # MongoDB Service
   # ------------------------
   mongo:
-    container_name: mongodb-container
     image: mongo:latest
+    container_name: mongodb-container
     ports:
       - "27017:27017"
     environment:
@@ -27,22 +27,22 @@ services:
   # NestJS API Service
   # ------------------------
   api:
-    container_name: nest-api
     build: .
+    container_name: nest-api
     command: npm run start:dev
     ports:
-      - "8080:8080"          # ⚠️ đổi 80 -> 8080 để tránh lỗi permission
+      - "8080:8080"
     environment:
       - PORT=8080
-      - MONGO_URI=mongodb://admin:123456@mongo:27017/userdb?authSource=admin
+      - MONGODB_URI=mongodb://admin:123456@mongo:27017/userdb?authSource=admin
       - NODE_ENV=development
     depends_on:
       mongo:
         condition: service_healthy
-    restart: always
     volumes:
       - .:/usr/src/app
     working_dir: /usr/src/app
+    restart: always
 
 volumes:
   mongodb_data:
