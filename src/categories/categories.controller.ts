@@ -46,9 +46,9 @@ export class CategoriesController {
   }
 
   @Post()
-  @ApiHeader({ name: 'x-api-token', required: true, description: 'Token API của đại lý' })
-  @ApiHeader({ name: 'x-api-password', required: true, description: 'Mật khẩu API của đại lý' })
-  @ApiHeader({ name: 'x-api-account', required: true, description: 'Tài khoản API của đại lý' })
+  @ApiHeader({ name: 'x-api-name', required: true, description: 'Tên thể loại' })
+  @ApiHeader({ name: 'x-api-description', required: true, description: 'Mô tả thể loại' })
+  @ApiHeader({ name: 'x-api-status', required: true, description: 'Trạng thái thể loại' })
   @ApiBody({
     description: 'Mẫu tạo thể loại',
     type: CreateCategoryDto,
@@ -70,9 +70,9 @@ export class CategoriesController {
   }
 
   @Put(':id')
-  @ApiHeader({ name: 'x-api-token', required: true, description: 'Token API của đại lý' })
-  @ApiHeader({ name: 'x-api-password', required: true, description: 'Mật khẩu API của đại lý' })
-  @ApiHeader({ name: 'x-api-account', required: true, description: 'Tài khoản API của đại lý' })
+  @ApiHeader({ name: 'x-api-name', required: true, description: 'Tên thể loại' })
+  @ApiHeader({ name: 'x-api-description', required: true, description: 'Mô tả thể loại' })
+  @ApiHeader({ name: 'x-api-status', required: true, description: 'Trạng thái thể loại' })
   @ApiBody({
     description: 'Mẫu cập nhật thể loại',
     type: UpdateCategoryDto,

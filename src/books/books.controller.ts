@@ -41,9 +41,11 @@ export class BooksController {
   
     // 3️⃣ POST - Chỉ admin mới có thể tạo mới sách
     @Post()
-    @ApiHeader({ name: 'x-api-token', required: true, description: 'Token API của đại lý' })
-    @ApiHeader({ name: 'x-api-password', required: true, description: 'Mật khẩu API của đại lý' })
-    @ApiHeader({ name: 'x-api-account', required: true, description: 'Tài khoản API của đại lý' })
+    @ApiHeader({ name: 'x-api-name', required: true, description: 'Tên sách' })
+    @ApiHeader({ name: 'x-api-author', required: true, description: 'Tên tác giả' })
+    @ApiHeader({ name: 'x-api-year_of_publication', required: true, description: 'Năm xuất bản' })
+    @ApiHeader({ name: 'x-api-publisher', required: true, description: 'Nhà xuất bản' })
+    @ApiHeader({ name: 'x-api-description', required: true, description: 'Mô tả sách' })
     @ApiBody({
       description: 'Mẫu tạo sách',
       type: CreateBookDto,
@@ -68,9 +70,11 @@ export class BooksController {
   
     // 4️⃣ PUT - Chỉ admin được phép cập nhật
     @Put(':id')
-    @ApiHeader({ name: 'x-api-token', required: true, description: 'Token API của đại lý' })
-    @ApiHeader({ name: 'x-api-password', required: true, description: 'Mật khẩu API của đại lý' })
-    @ApiHeader({ name: 'x-api-account', required: true, description: 'Tài khoản API của đại lý' })
+    @ApiHeader({ name: 'x-api-name', required: true, description: 'Tên sách' })
+    @ApiHeader({ name: 'x-api-author', required: true, description: 'Tên tác giả' })
+    @ApiHeader({ name: 'x-api-year_of_publication', required: true, description: 'Năm xuất bản' })
+    @ApiHeader({ name: 'x-api-publisher', required: true, description: 'Nhà xuất bản' })
+    @ApiHeader({ name: 'x-api-description', required: true, description: 'Mô tả sách' })
     @ApiBody({
       description: 'Mẫu cập nhật sách',
       type: UpdateBookDto,
